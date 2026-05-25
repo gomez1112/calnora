@@ -1,0 +1,87 @@
+{
+  "iconName": "Calnora",
+  "masterSize": "1024x1024",
+  "status": "placeholder layers generated locally; replace with final Images 2.0 exports before release",
+  "layerOrderBackToFront": [
+    {
+      "fileName": "AppIcon_Background.png",
+      "purpose": "Base background",
+      "recommendedOpacity": 1.0,
+      "blendMode": "normal",
+      "hasTransparency": false,
+      "canReceiveDepthParallax": false,
+      "notes": "Bottom layer. Keep full canvas."
+    },
+    {
+      "fileName": "AppIcon_BaseGradient.png",
+      "purpose": "Secondary atmospheric color",
+      "recommendedOpacity": 0.82,
+      "blendMode": "normal",
+      "hasTransparency": true,
+      "canReceiveDepthParallax": true,
+      "notes": "Subtle blooms only."
+    },
+    {
+      "fileName": "AppIcon_DepthShadow.png",
+      "purpose": "Layered depth shadow",
+      "recommendedOpacity": 0.45,
+      "blendMode": "multiply",
+      "hasTransparency": true,
+      "canReceiveDepthParallax": false,
+      "notes": "Keep subtle; do not add heavy shadow."
+    },
+    {
+      "fileName": "AppIcon_CalorieRing.png",
+      "purpose": "Main calorie progress symbol",
+      "recommendedOpacity": 1.0,
+      "blendMode": "normal",
+      "hasTransparency": true,
+      "canReceiveDepthParallax": true,
+      "notes": "Primary recognizable silhouette."
+    },
+    {
+      "fileName": "AppIcon_NutritionLeaf.png",
+      "purpose": "Nutrition and wellness cue",
+      "recommendedOpacity": 1.0,
+      "blendMode": "normal",
+      "hasTransparency": true,
+      "canReceiveDepthParallax": true,
+      "notes": "Keep readable at 40px and 29px."
+    },
+    {
+      "fileName": "AppIcon_AISpark.png",
+      "purpose": "AI coaching cue",
+      "recommendedOpacity": 0.92,
+      "blendMode": "screen",
+      "hasTransparency": true,
+      "canReceiveDepthParallax": true,
+      "notes": "Small, elegant, not a robot."
+    },
+    {
+      "fileName": "AppIcon_GlassHighlight.png",
+      "purpose": "Glass highlight",
+      "recommendedOpacity": 0.42,
+      "blendMode": "screen",
+      "hasTransparency": true,
+      "canReceiveDepthParallax": false,
+      "notes": "Subtle specular layer."
+    }
+  ],
+  "compositePreview": "AppIcon_CompositePreview.png",
+  "qualityChecklist": [
+    "Looks clear at 1024px",
+    "Looks clear at 180px",
+    "Looks clear at 120px",
+    "Looks clear at 60px",
+    "Looks clear at 40px",
+    "Looks clear at 29px",
+    "Works on light backgrounds",
+    "Works on dark backgrounds",
+    "Has no text",
+    "Has no copied Apple symbols",
+    "Has no medical claims",
+    "Has no diet-shame imagery",
+    "Has a distinct silhouette",
+    "The main ring, leaf, and spark are visible when scaled down"
+  ]
+}

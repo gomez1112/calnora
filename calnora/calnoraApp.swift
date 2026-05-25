@@ -1,17 +1,38 @@
-//
-//  calnoraApp.swift
-//  calnora
-//
-//  Created by Gerard Gomez on 5/25/26.
-//
-
+import SwiftData
 import SwiftUI
 
 @main
-struct calnoraApp: App {
+struct CalnoraApp: App {
+    @State private var environment = AppEnvironment.live()
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            RootView()
+                .environment(environment.appState)
+                .environment(environment.router)
+                .environment(environment.userProfileStore)
+                .environment(environment.nutritionGoalStore)
+                .environment(environment.mealStore)
+                .environment(environment.coachStore)
+                .environment(environment.purchaseStore)
+                .environment(environment.notificationStore)
+                .environment(environment.purchaseStore.storeKitService)
+                .modelContainer(environment.modelContainer)
         }
+
+        #if os(macOS)
+        Settings {
+            SettingsView()
+                .environment(environment.appState)
+                .environment(environment.router)
+                .environment(environment.userProfileStore)
+                .environment(environment.nutritionGoalStore)
+                .environment(environment.purchaseStore)
+                .environment(environment.notificationStore)
+                .environment(environment.purchaseStore.storeKitService)
+                .modelContainer(environment.modelContainer)
+                .frame(minWidth: 560, minHeight: 640)
+        }
+        #endif
     }
 }

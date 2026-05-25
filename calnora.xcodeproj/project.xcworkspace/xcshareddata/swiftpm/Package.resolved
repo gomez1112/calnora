@@ -27,15 +27,6 @@
         "branch" : "main",
         "revision" : "8ff5a73598253451bff3aa4de1b25bfaada45701"
       }
-    },
-    {
-      "identity" : "onboardingkit",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/gomez1112/OnboardingKit",
-      "state" : {
-        "revision" : "6f3cae0fe8751fbe7afe81e490f6cdeeaacf80dc",
-        "version" : "1.5.0"
-      }
     }
   ],
   "version" : 3
