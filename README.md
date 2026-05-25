@@ -14,6 +14,20 @@ This was treated as an existing-project change. The repository already contained
 
 The target/scheme remains `calnora`; the home screen display name is `Calnora`, and the bundle ID is `com.gerardgomez.calnora`.
 
+The current MVP intentionally excludes the Apple Watch companion. iOS, iPadOS, and macOS-compatible SwiftUI surfaces are kept in the shared app target.
+
+## Current Feature Coverage
+
+- OnboardingKit-backed intro plus editable setup for goal, body metrics, activity, diet, allergies, units, reminders, disclaimer, and Pro intro.
+- SwiftData persistence through EZSwiftData for profile, goals, meals, foods, favorites, water, weight, coach messages, coach insights, purchase snapshots, and premium packs.
+- Dashboard with Health-style calorie, macro, water, streak, coach, meal timeline, Pro card, and EZCharts weekly trend cards.
+- Manual meal logging, editable AI estimates, local food shortcuts, reusable favorites, quick water entries, saved meal deletion, and approximate nutrition review.
+- Foundation Models coach abstraction with MockCoachEngine fallback, persisted coach chat, daily insights, weekly free quotas, and Pro/lifetime unlimited access.
+- FlexStore purchase store for subscriptions, lifetime unlock, high-protein pack, restores, entitlements, product state, and persisted purchase snapshots.
+- Premium pack screen for the high-protein local meal idea pack.
+- History, insights, profile editing, privacy/safety notes, optional reminders, data export, and App Review-safe paywall messaging.
+- Images 2.0-ready asset plan, placeholder generated assets, layered Icon Composer source folder, manifest, and checklist.
+
 ## Architecture
 
 The app target is organized under `calnora/`:
@@ -78,11 +92,13 @@ Defaults:
 - Configuration: `Debug`
 - Simulator: `iPhone 17 Pro`
 - Bundle ID: `com.gerardgomez.calnora`
+- Screenshot: `build/calnora-dashboard.png`
+- Screenshot delay: `2` seconds
 
 Override example:
 
 ```sh
-SIMULATOR_NAME="iPhone 17" ./scripts/build_and_launch.sh
+SIMULATOR_NAME="iPhone 17" SCREENSHOT_DELAY=4 ./scripts/build_and_launch.sh
 ```
 
 ## Validation
@@ -105,6 +121,8 @@ Useful commands:
 ```sh
 xcodebuild -project calnora.xcodeproj -scheme calnora -destination 'platform=iOS Simulator,name=iPhone 17 Pro' -derivedDataPath build/DerivedData CODE_SIGNING_ALLOWED=NO build
 xcodebuild -project calnora.xcodeproj -scheme calnora -destination 'platform=iOS Simulator,name=iPhone 17 Pro' -derivedDataPath build/DerivedData CODE_SIGNING_ALLOWED=NO test
+xcodebuild -project calnora.xcodeproj -scheme calnora -configuration Debug -destination 'platform=macOS' -derivedDataPath build/MacDerivedData CODE_SIGNING_ALLOWED=NO build
+./scripts/build_and_launch.sh
 ```
 
 ## Privacy And Safety

@@ -4,9 +4,39 @@ import SwiftUI
 
 @Observable
 final class OnboardingModel {
+    var hasFinishedIntro = false
+    var displayName = ""
     var selectedGoal: GoalType = .improveHabits
+    var ageRange: AgeRange = .twentyFiveToThirtyFour
+    var height: Double = 68
+    var weight: Double = 165
+    var activityLevel: ActivityLevel = .moderate
+    var dietaryPreference: DietaryPreference = .balanced
+    var allergiesText = ""
+    var avoidedFoodsText = ""
     var preferredUnits: PreferredUnits = .imperial
     var wantsReminders = false
+    var acceptedDisclaimer = false
+
+    var canFinishSetup: Bool {
+        acceptedDisclaimer && height > 0 && weight > 0
+    }
+
+    var profileDraft: OnboardingProfileDraft {
+        OnboardingProfileDraft(
+            displayName: displayName.trimmingCharacters(in: .whitespacesAndNewlines),
+            goal: selectedGoal,
+            ageRange: ageRange,
+            height: height,
+            weight: weight,
+            activityLevel: activityLevel,
+            dietaryPreference: dietaryPreference,
+            allergiesText: allergiesText,
+            avoidedFoodsText: avoidedFoodsText,
+            preferredUnits: preferredUnits,
+            wantsReminders: wantsReminders
+        )
+    }
 
     var pages: [OnboardingPage] {
         [
@@ -67,5 +97,34 @@ final class OnboardingModel {
                 iconColor: CalnoraColors.coach
             )
         ]
+    }
+}
+
+nonisolated struct OnboardingProfileDraft: Equatable, Sendable {
+    var displayName: String
+    var goal: GoalType
+    var ageRange: AgeRange
+    var height: Double
+    var weight: Double
+    var activityLevel: ActivityLevel
+    var dietaryPreference: DietaryPreference
+    var allergiesText: String
+    var avoidedFoodsText: String
+    var preferredUnits: PreferredUnits
+    var wantsReminders: Bool
+
+    var allergyList: [String] {
+        Self.splitCommaSeparatedList(allergiesText)
+    }
+
+    var avoidedFoodList: [String] {
+        Self.splitCommaSeparatedList(avoidedFoodsText)
+    }
+
+    private static func splitCommaSeparatedList(_ text: String) -> [String] {
+        text
+            .split(separator: ",")
+            .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+            .filter { !$0.isEmpty }
     }
 }

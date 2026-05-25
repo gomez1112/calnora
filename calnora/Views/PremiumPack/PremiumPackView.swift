@@ -1,4 +1,5 @@
 import FlexStore
+import StoreKit
 import SwiftUI
 
 struct PremiumPackView: View {
@@ -10,7 +11,7 @@ struct PremiumPackView: View {
             LazyVStack(alignment: .leading, spacing: CalnoraSpacing.large) {
                 WalletPassCard(
                     title: "High Protein Pack",
-                    subtitle: "20 local meal ideas",
+                    subtitle: "20 local meal ideas\(priceSuffix)",
                     systemImage: "takeoutbag.and.cup.and.straw",
                     footnote: "Values are approximate and intended for planning.",
                     actionTitle: purchaseStore.entitlements.hasHighProteinPack ? nil : "Unlock"
@@ -48,17 +49,57 @@ struct PremiumPackView: View {
                         systemImage: "lock.fill",
                         tint: CalnoraColors.protein
                     )
-                    NonConsumablePurchaseButton<CalnoraSubscriptionTier>(
-                        productID: CalnoraProductID.highProteinPack,
-                        title: "Unlock High Protein Pack",
-                        purchasedTitle: "Unlocked"
-                    )
+                    Button("Unlock High Protein Pack", systemImage: "takeoutbag.and.cup.and.straw") {
+                        Task {
+                            await purchaseStore.purchase(productID: CalnoraProductID.highProteinPack)
+                            if purchaseStore.purchaseState == .purchased {
+                                notificationStore.purchaseSuccessful()
+                            }
+                        }
+                    }
                     .buttonStyle(.borderedProminent)
+                    .disabled(purchaseStore.storeKitService.product(for: CalnoraProductID.highProteinPack) == nil)
+
+                    ForEach(PremiumContentService.highProteinIdeas().prefix(3)) { idea in
+                        LockedMealIdeaRow(idea: idea)
+                    }
                 }
             }
             .padding()
         }
         .background(CalnoraColors.groupedBackground)
         .navigationTitle("Premium Pack")
+        .task {
+            await purchaseStore.configure()
+        }
+    }
+
+    private var priceSuffix: String {
+        guard let price = purchaseStore.storeKitService.product(for: CalnoraProductID.highProteinPack)?.displayPrice else {
+            return ""
+        }
+        return " · \(price)"
+    }
+}
+
+private struct LockedMealIdeaRow: View {
+    var idea: HighProteinMealIdea
+
+    var body: some View {
+        HStack {
+            VStack(alignment: .leading, spacing: 4) {
+                Text(idea.title)
+                    .font(.headline)
+                Text("Unlock to view local meal details and approximate macros.")
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+            }
+            Spacer()
+            Image(systemName: "lock.fill")
+                .foregroundStyle(CalnoraColors.protein)
+        }
+        .redacted(reason: .placeholder)
+        .calnoraCard(tint: CalnoraColors.protein)
+        .accessibilityLabel("Locked high protein meal idea")
     }
 }

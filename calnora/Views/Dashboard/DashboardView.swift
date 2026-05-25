@@ -38,11 +38,17 @@ struct DashboardView: View {
         }
         .background(CalnoraColors.groupedBackground)
         .navigationTitle("Today")
+        #if os(iOS)
+        .toolbar(.hidden, for: .navigationBar)
+        #endif
         .task {
             model.update(mealStore: mealStore, nutritionGoalStore: nutritionGoalStore)
             await coachStore.refreshDailyInsight()
         }
         .onChange(of: mealStore.meals.count) { _, _ in
+            model.update(mealStore: mealStore, nutritionGoalStore: nutritionGoalStore)
+        }
+        .onChange(of: mealStore.waterEntries.count) { _, _ in
             model.update(mealStore: mealStore, nutritionGoalStore: nutritionGoalStore)
         }
     }

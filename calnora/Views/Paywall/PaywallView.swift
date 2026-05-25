@@ -27,6 +27,11 @@ struct PaywallView: View {
 
                 productOptions
 
+                LabeledContent("Purchase status", value: purchaseStore.purchaseState.rawValue.capitalized)
+                    .font(.footnote.weight(.semibold))
+                    .foregroundStyle(.secondary)
+                    .calnoraCard(tint: CalnoraColors.coach)
+
                 Button("Restore Purchases", systemImage: "arrow.clockwise") {
                     Task {
                         await purchaseStore.restorePurchases()
@@ -124,14 +129,25 @@ private struct PaywallProductCard: View {
             VStack(alignment: .trailing, spacing: 8) {
                 Text(purchaseStore.storeKitService.product(for: productID)?.displayPrice ?? "Loading")
                     .font(.headline.monospacedDigit())
-                Button("Choose") {
+                Button(buttonTitle) {
                     Task { await purchaseStore.purchase(productID: productID) }
                 }
                 .buttonStyle(.borderedProminent)
-                .disabled(purchaseStore.storeKitService.product(for: productID) == nil)
+                .disabled(purchaseStore.storeKitService.product(for: productID) == nil || purchaseStore.purchaseState == .purchasing)
             }
         }
         .calnoraCard(tint: CalnoraColors.coach, isInteractive: true)
+    }
+
+    private var buttonTitle: String {
+        switch purchaseStore.purchaseState {
+        case .purchasing:
+            "Purchasing"
+        case .purchased where purchaseStore.owns(productID):
+            "Owned"
+        default:
+            "Choose"
+        }
     }
 }
 

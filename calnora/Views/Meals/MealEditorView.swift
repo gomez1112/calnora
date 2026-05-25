@@ -14,6 +14,7 @@ struct MealEditorView: View {
             Section("Meal") {
                 TextField("Name", text: $model.name)
                 TextField("Serving", text: $model.servingDescription)
+                DatePicker("Date", selection: $model.date)
                 Picker("Meal type", selection: $model.mealType) {
                     ForEach(MealType.allCases) { type in
                         Text(type.title).tag(type)
@@ -33,13 +34,18 @@ struct MealEditorView: View {
             Section("Notes") {
                 TextField("Optional note", text: $model.notes, axis: .vertical)
                     .lineLimit(3...6)
+                Toggle("Save as favorite", isOn: $model.saveAsFavorite)
             }
         }
         .navigationTitle("Add Meal")
         .toolbar {
             ToolbarItem(placement: .confirmationAction) {
                 Button("Save") {
-                    mealStore.save(model.makeMealEntry())
+                    let meal = model.makeMealEntry()
+                    mealStore.save(meal)
+                    if model.saveAsFavorite {
+                        mealStore.saveFavorite(from: meal)
+                    }
                     notificationStore.mealSaved()
                     dismiss()
                 }

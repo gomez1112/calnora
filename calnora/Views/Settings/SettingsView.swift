@@ -3,6 +3,10 @@ import SwiftUI
 
 struct SettingsView: View {
     @Environment(AppRouter.self) private var router
+    @Environment(UserProfileStore.self) private var userProfileStore
+    @Environment(NutritionGoalStore.self) private var nutritionGoalStore
+    @Environment(MealStore.self) private var mealStore
+    @Environment(CoachStore.self) private var coachStore
     @Environment(PurchaseStore.self) private var purchaseStore
     @Environment(NotificationStore.self) private var notificationStore
     @State private var model = SettingsModel()
@@ -27,6 +31,12 @@ struct SettingsView: View {
                 }
                 Button("Schedule hydration reminder", systemImage: "drop.fill") {
                     Task { await notificationStore.scheduleHydrationReminder() }
+                }
+                Button("Schedule lunch reminder", systemImage: "fork.knife") {
+                    Task { await notificationStore.scheduleLunchReminder() }
+                }
+                Button("Schedule daily summary", systemImage: "list.bullet.clipboard") {
+                    Task { await notificationStore.scheduleDailySummaryReminder() }
                 }
             }
 
@@ -53,12 +63,26 @@ struct SettingsView: View {
                 Button("Health disclaimer", systemImage: "checkmark.shield") {
                     model.showingDisclaimer = true
                 }
-                Button("Export data", systemImage: "square.and.arrow.up") {
-                    notificationStore.show(
-                        title: "Export placeholder",
-                        message: "Data export is reserved for the next build slice.",
-                        symbolName: "square.and.arrow.up"
-                    )
+                Button {
+                    Task { await exportData() }
+                } label: {
+                    if model.isExporting {
+                        Label("Exporting data", systemImage: "hourglass")
+                    } else {
+                        Label("Export data", systemImage: "square.and.arrow.up")
+                    }
+                }
+                .disabled(model.isExporting)
+
+                if let exportURL = model.exportURL {
+                    ShareLink(item: exportURL) {
+                        Label("Share latest export", systemImage: "doc.badge.arrow.up")
+                    }
+                }
+
+                if let error = model.exportErrorMessage {
+                    Label(error, systemImage: "exclamationmark.triangle")
+                        .foregroundStyle(CalnoraColors.warning)
                 }
             }
 
@@ -73,6 +97,36 @@ struct SettingsView: View {
             Button("OK", role: .cancel) {}
         } message: {
             Text("Calnora provides informational wellness guidance only. It does not diagnose, treat, or replace professional medical advice.")
+        }
+    }
+
+    private func exportData() async {
+        model.isExporting = true
+        model.exportErrorMessage = nil
+        defer { model.isExporting = false }
+
+        let snapshot = CalnoraExportSnapshot(
+            userProfileStore: userProfileStore,
+            nutritionGoalStore: nutritionGoalStore,
+            mealStore: mealStore,
+            coachStore: coachStore,
+            purchaseStore: purchaseStore
+        )
+
+        do {
+            model.exportURL = try await DataExportService().export(snapshot)
+            notificationStore.show(
+                title: "Export ready",
+                message: "Your Calnora data export is ready to share.",
+                symbolName: "square.and.arrow.up"
+            )
+        } catch {
+            model.exportErrorMessage = error.localizedDescription
+            notificationStore.show(
+                title: "Export issue",
+                message: error.localizedDescription,
+                symbolName: "exclamationmark.triangle"
+            )
         }
     }
 }

@@ -2,15 +2,20 @@ import SwiftData
 import SwiftUI
 
 struct CoachChatView: View {
+    @Environment(AppRouter.self) private var router
     @Environment(CoachStore.self) private var coachStore
     @Environment(PurchaseStore.self) private var purchaseStore
+    @Environment(NotificationStore.self) private var notificationStore
     let quotaManager: QuotaManager
     @State private var model = CoachChatModel()
+    @State private var remainingUses: Int?
 
     var body: some View {
         @Bindable var model = model
 
         VStack(spacing: 0) {
+            quotaBanner
+
             ScrollView {
                 LazyVStack(spacing: CalnoraSpacing.medium) {
                     ForEach(model.localMessages) { message in
@@ -37,11 +42,53 @@ struct CoachChatView: View {
             .background(.regularMaterial)
         }
         .navigationTitle("Coach")
+        .task {
+            coachStore.load()
+            model.load(from: coachStore.messages)
+            await refreshQuota()
+        }
+        .onChange(of: purchaseStore.entitlements) { _, _ in
+            Task { await refreshQuota() }
+        }
+    }
+
+    private var quotaBanner: some View {
+        HStack(spacing: CalnoraSpacing.small) {
+            Label(quotaText, systemImage: purchaseStore.entitlements.unlocksPro ? "infinity" : "sparkles")
+                .font(.footnote.weight(.semibold))
+                .foregroundStyle(purchaseStore.entitlements.unlocksPro ? CalnoraColors.success : CalnoraColors.coach)
+            Spacer()
+            if !purchaseStore.entitlements.unlocksPro {
+                Button("Upgrade") {
+                    router.push(.paywall, in: .coach)
+                }
+                .buttonStyle(.bordered)
+                .controlSize(.small)
+            }
+        }
+        .padding(.horizontal)
+        .padding(.vertical, 10)
+        .background(CalnoraColors.groupedBackground)
+    }
+
+    private var quotaText: String {
+        if purchaseStore.entitlements.unlocksPro {
+            "Unlimited coach questions"
+        } else if let remainingUses {
+            "\(remainingUses) free coach questions left this week"
+        } else {
+            "Checking coach quota"
+        }
     }
 
     private func send() async {
         let question = model.input.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !question.isEmpty else { return }
+        guard purchaseStore.entitlements.unlocksPro || (remainingUses ?? 1) > 0 else {
+            notificationStore.quotaLimitReached()
+            router.push(.paywall, in: .coach)
+            return
+        }
         model.input = ""
         model.localMessages.append(CoachChatBubble(role: .user, text: question))
         let answer = await coachStore.answer(
@@ -49,7 +96,18 @@ struct CoachChatView: View {
             entitlements: purchaseStore.entitlements,
             quotaManager: quotaManager
         )
+        if answer == QuotaError.limitReached.localizedDescription {
+            notificationStore.quotaLimitReached()
+        }
         model.localMessages.append(CoachChatBubble(role: .assistant, text: answer))
+        await refreshQuota()
+    }
+
+    private func refreshQuota() async {
+        remainingUses = await quotaManager.remainingUses(
+            for: .coachQuestion,
+            entitlements: purchaseStore.entitlements
+        )
     }
 }
 
@@ -83,6 +141,8 @@ private struct CoachBubbleView: View {
 
 #Preview {
     CoachChatView(quotaManager: QuotaManager())
+        .environment(AppRouter())
         .environment(CoachStore(engine: MockCoachEngine(), mealStore: MealStore(context: PersistenceController.makeModelContainer(inMemory: true).mainContext), nutritionGoalStore: NutritionGoalStore(context: PersistenceController.makeModelContainer(inMemory: true).mainContext)))
         .environment(PurchaseStore())
+        .environment(NotificationStore())
 }

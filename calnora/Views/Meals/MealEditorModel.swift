@@ -3,6 +3,7 @@ import Observation
 
 @Observable
 final class MealEditorModel {
+    var date = Date()
     var mealType: MealType = .breakfast
     var name = ""
     var servingDescription = "1 serving"
@@ -13,6 +14,7 @@ final class MealEditorModel {
     var fiber: Double = 0
     var sugar: Double = 0
     var notes = ""
+    var saveAsFavorite = false
 
     var canSave: Bool {
         !name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && calories >= 0
@@ -32,6 +34,7 @@ final class MealEditorModel {
 
     func makeMealEntry(source: MealSource = .manual, confidence: Double = 1) -> MealEntry {
         MealEntry(
+            date: date,
             mealType: mealType,
             name: name,
             servingDescription: servingDescription,
@@ -43,7 +46,8 @@ final class MealEditorModel {
             sugar: sugar,
             notes: notes,
             source: source,
-            confidence: confidence
+            confidence: confidence,
+            isFavorite: saveAsFavorite
         )
     }
 }

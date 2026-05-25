@@ -4,6 +4,7 @@ struct RootView: View {
     @Environment(AppState.self) private var appState
     @Environment(AppRouter.self) private var router
     @Environment(UserProfileStore.self) private var userProfileStore
+    @Environment(PurchaseStore.self) private var purchaseStore
     @Environment(NotificationStore.self) private var notificationStore
     @State private var quotaManager = QuotaManager()
 
@@ -106,6 +107,7 @@ struct RootView: View {
 
     private func appDidAppear() async {
         await notificationStore.refreshPermissionStatus()
+        await purchaseStore.configure()
     }
 }
 

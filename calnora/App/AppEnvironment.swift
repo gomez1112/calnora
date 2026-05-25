@@ -44,9 +44,10 @@ final class AppEnvironment {
         let userProfileStore = UserProfileStore(context: container.mainContext)
         let nutritionGoalStore = NutritionGoalStore(context: container.mainContext)
         let mealStore = MealStore(context: container.mainContext)
-        let purchaseStore = PurchaseStore()
+        let purchaseStore = PurchaseStore(context: container.mainContext)
         let notificationStore = NotificationStore()
         let coachStore = CoachStore(
+            context: container.mainContext,
             engine: CoachEngineAvailability.makeEngine(),
             mealStore: mealStore,
             nutritionGoalStore: nutritionGoalStore

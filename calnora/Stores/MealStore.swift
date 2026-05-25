@@ -7,7 +7,9 @@ final class MealStore {
     @ObservationIgnored private let context: ModelContext
     var meals: [MealEntry] = []
     var waterEntries: [WaterEntry] = []
+    var weightEntries: [WeightEntry] = []
     var favorites: [FavoriteMeal] = []
+    var foodItems: [FoodItem] = []
 
     init(context: ModelContext) {
         self.context = context
@@ -22,14 +24,65 @@ final class MealStore {
         let waterDescriptor = FetchDescriptor<WaterEntry>(sortBy: [SortDescriptor(\.date, order: .reverse)])
         waterEntries = (try? context.fetch(waterDescriptor)) ?? []
 
+        let weightDescriptor = FetchDescriptor<WeightEntry>(sortBy: [SortDescriptor(\.date, order: .reverse)])
+        weightEntries = (try? context.fetch(weightDescriptor)) ?? []
+
         let favoriteDescriptor = FetchDescriptor<FavoriteMeal>(sortBy: [SortDescriptor(\.name)])
         favorites = (try? context.fetch(favoriteDescriptor)) ?? []
+
+        let foodDescriptor = FetchDescriptor<FoodItem>(sortBy: [SortDescriptor(\.name)])
+        foodItems = (try? context.fetch(foodDescriptor)) ?? []
     }
 
     func save(_ meal: MealEntry) {
         context.insert(meal)
         try? context.save()
         load()
+    }
+
+    func delete(_ meal: MealEntry) {
+        context.delete(meal)
+        try? context.save()
+        load()
+    }
+
+    func toggleFavorite(_ meal: MealEntry) {
+        meal.isFavorite.toggle()
+        if meal.isFavorite {
+            saveFavorite(from: meal)
+        } else if let favorite = favorites.first(where: { $0.name == meal.name }) {
+            context.delete(favorite)
+        }
+        try? context.save()
+        load()
+    }
+
+    func saveFavorite(from meal: MealEntry) {
+        guard !favorites.contains(where: { $0.name.localizedCaseInsensitiveCompare(meal.name) == .orderedSame }) else { return }
+        context.insert(FavoriteMeal(
+            name: meal.name,
+            totalCalories: meal.calories,
+            totalProtein: meal.protein,
+            totalCarbs: meal.carbs,
+            totalFat: meal.fat
+        ))
+        try? context.save()
+        load()
+    }
+
+    func logFavorite(_ favorite: FavoriteMeal, mealType: MealType = .lunch) {
+        save(MealEntry(
+            mealType: mealType,
+            name: favorite.name,
+            servingDescription: "Saved favorite",
+            calories: favorite.totalCalories,
+            protein: favorite.totalProtein,
+            carbs: favorite.totalCarbs,
+            fat: favorite.totalFat,
+            source: .favorite,
+            confidence: 1,
+            isFavorite: true
+        ))
     }
 
     func saveEstimate(_ estimate: ParsedMealEstimate, mealType: MealType) {
@@ -52,6 +105,12 @@ final class MealStore {
 
     func saveWater(amount: Double) {
         context.insert(WaterEntry(amount: amount))
+        try? context.save()
+        load()
+    }
+
+    func saveWeight(_ weight: Double) {
+        context.insert(WeightEntry(weight: weight))
         try? context.save()
         load()
     }
@@ -92,5 +151,6 @@ final class MealStore {
         }
         foods.forEach(context.insert)
         try? context.save()
+        load()
     }
 }

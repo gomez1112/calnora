@@ -10,7 +10,7 @@ struct HealthMetricCard: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: CalnoraSpacing.small) {
-            HStack(spacing: CalnoraSpacing.small) {
+            VStack(alignment: .leading, spacing: CalnoraSpacing.xSmall) {
                 Image(systemName: symbolName)
                     .font(.headline)
                     .foregroundStyle(tint)
@@ -22,7 +22,7 @@ struct HealthMetricCard: View {
                     .font(.subheadline.weight(.semibold))
                     .foregroundStyle(.secondary)
                     .lineLimit(1)
-                    .minimumScaleFactor(0.82)
+                    .minimumScaleFactor(0.68)
             }
 
             HStack(alignment: .firstTextBaseline, spacing: 4) {
@@ -41,6 +41,7 @@ struct HealthMetricCard: View {
                     .accessibilityValue("\(Int(value)) of \(Int(target)) \(unit)")
             }
         }
+        .frame(minHeight: 132, alignment: .topLeading)
         .frame(maxWidth: .infinity, alignment: .leading)
         .calnoraCard(cornerRadius: CalnoraSpacing.tileRadius, tint: tint)
         .accessibilityElement(children: .combine)

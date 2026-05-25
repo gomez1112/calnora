@@ -55,4 +55,40 @@ final class NotificationStore {
             show(title: "Reminder issue", message: error.localizedDescription, symbolName: "exclamationmark.triangle")
         }
     }
+
+    func scheduleLunchReminder() async {
+        do {
+            try await Notify.schedule(
+                title: "Want to log lunch?",
+                body: "A quick note is enough. You can edit details later.",
+                in: .hours(4),
+                threadID: "calnora.lunch"
+            )
+            show(title: "Lunch reminder set", message: "Calnora will keep it gentle.", symbolName: "fork.knife")
+        } catch {
+            show(title: "Reminder issue", message: error.localizedDescription, symbolName: "exclamationmark.triangle")
+        }
+    }
+
+    func scheduleDailySummaryReminder() async {
+        do {
+            try await Notify.schedule(
+                title: "Your daily summary is ready",
+                body: "Review today with curiosity, not judgment.",
+                in: .hours(8),
+                threadID: "calnora.daily-summary"
+            )
+            show(title: "Daily summary set", message: "A calm check-in is scheduled.", symbolName: "list.bullet.clipboard")
+        } catch {
+            show(title: "Reminder issue", message: error.localizedDescription, symbolName: "exclamationmark.triangle")
+        }
+    }
+
+    func quotaLimitReached() {
+        show(
+            title: "Weekly AI limit reached",
+            message: "Manual logging remains unlimited. Pro unlocks unlimited AI estimates and coach questions.",
+            symbolName: "sparkles"
+        )
+    }
 }

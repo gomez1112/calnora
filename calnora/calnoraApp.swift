@@ -27,6 +27,8 @@ struct CalnoraApp: App {
                 .environment(environment.router)
                 .environment(environment.userProfileStore)
                 .environment(environment.nutritionGoalStore)
+                .environment(environment.mealStore)
+                .environment(environment.coachStore)
                 .environment(environment.purchaseStore)
                 .environment(environment.notificationStore)
                 .environment(environment.purchaseStore.storeKitService)

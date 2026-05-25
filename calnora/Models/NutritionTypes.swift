@@ -27,6 +27,28 @@ nonisolated enum AgeRange: String, CaseIterable, Codable, Identifiable, Sendable
     case fiftyFivePlus
 
     var id: String { rawValue }
+
+    var title: String {
+        switch self {
+        case .under18: "Under 18"
+        case .eighteenToTwentyFour: "18-24"
+        case .twentyFiveToThirtyFour: "25-34"
+        case .thirtyFiveToFortyFour: "35-44"
+        case .fortyFiveToFiftyFour: "45-54"
+        case .fiftyFivePlus: "55+"
+        }
+    }
+
+    var representativeAge: Int {
+        switch self {
+        case .under18: 17
+        case .eighteenToTwentyFour: 22
+        case .twentyFiveToThirtyFour: 30
+        case .thirtyFiveToFortyFour: 40
+        case .fortyFiveToFiftyFour: 50
+        case .fiftyFivePlus: 60
+        }
+    }
 }
 
 nonisolated enum ActivityLevel: String, CaseIterable, Codable, Identifiable, Sendable {
@@ -68,6 +90,17 @@ nonisolated enum DietaryPreference: String, CaseIterable, Codable, Identifiable,
     case lowerCarb
 
     var id: String { rawValue }
+
+    var title: String {
+        switch self {
+        case .balanced: "Balanced"
+        case .vegetarian: "Vegetarian"
+        case .vegan: "Vegan"
+        case .pescatarian: "Pescatarian"
+        case .highProtein: "High protein"
+        case .lowerCarb: "Lower carb"
+        }
+    }
 }
 
 nonisolated enum PreferredUnits: String, CaseIterable, Codable, Identifiable, Sendable {
@@ -75,6 +108,34 @@ nonisolated enum PreferredUnits: String, CaseIterable, Codable, Identifiable, Se
     case metric
 
     var id: String { rawValue }
+
+    var title: String {
+        switch self {
+        case .imperial: "Imperial"
+        case .metric: "Metric"
+        }
+    }
+
+    var heightUnit: String {
+        switch self {
+        case .imperial: "in"
+        case .metric: "cm"
+        }
+    }
+
+    var weightUnit: String {
+        switch self {
+        case .imperial: "lb"
+        case .metric: "kg"
+        }
+    }
+
+    var waterUnit: String {
+        switch self {
+        case .imperial: "oz"
+        case .metric: "ml"
+        }
+    }
 }
 
 nonisolated enum MealType: String, CaseIterable, Codable, Identifiable, Sendable {
