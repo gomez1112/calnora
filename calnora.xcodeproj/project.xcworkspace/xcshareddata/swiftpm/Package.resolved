@@ -1,0 +1,42 @@
+{
+  "originHash" : "907a390a26831822984d47c81f51bb84e5526dc25c02896dfe16200d59a6004a",
+  "pins" : [
+    {
+      "identity" : "ezswiftdata",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/gomez1112/EZSwiftData",
+      "state" : {
+        "revision" : "ae6ac380fef4429fdf8e0a137549cf3ad5e9cc1d",
+        "version" : "1.1.3"
+      }
+    },
+    {
+      "identity" : "flexstore",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/gomez1112/FlexStore",
+      "state" : {
+        "revision" : "27338bd0020b216c74a011a4fb520784ae392a1c",
+        "version" : "1.2.0"
+      }
+    },
+    {
+      "identity" : "gentlenotification",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/gomez1112/GentleNotification",
+      "state" : {
+        "branch" : "main",
+        "revision" : "8ff5a73598253451bff3aa4de1b25bfaada45701"
+      }
+    },
+    {
+      "identity" : "onboardingkit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/gomez1112/OnboardingKit",
+      "state" : {
+        "revision" : "6f3cae0fe8751fbe7afe81e490f6cdeeaacf80dc",
+        "version" : "1.5.0"
+      }
+    }
+  ],
+  "version" : 3
+}
