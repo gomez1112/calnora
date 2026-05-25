@@ -3,21 +3,21 @@ import SwiftData
 
 @Model
 final class MealEntry {
-    @Attribute(.unique) var id: UUID
-    var date: Date
-    var mealType: MealType
-    var name: String
-    var servingDescription: String
-    var calories: Double
-    var protein: Double
-    var carbs: Double
-    var fat: Double
-    var fiber: Double
-    var sugar: Double
-    var notes: String
-    var source: MealSource
-    var confidence: Double
-    var isFavorite: Bool
+    var id = UUID()
+    var date = Date()
+    var mealType = MealType.breakfast
+    var name = ""
+    var servingDescription = ""
+    var calories = 0.0
+    var protein = 0.0
+    var carbs = 0.0
+    var fat = 0.0
+    var fiber = 0.0
+    var sugar = 0.0
+    var notes = ""
+    var source = MealSource.manual
+    var confidence = 1.0
+    var isFavorite = false
 
     init(
         id: UUID = UUID(),

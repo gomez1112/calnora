@@ -3,10 +3,10 @@ import SwiftData
 
 @Model
 final class PremiumContentPack {
-    @Attribute(.unique) var id: UUID
-    var productID: String
-    var title: String
-    var isUnlocked: Bool
+    var id = UUID()
+    var productID = ""
+    var title = ""
+    var isUnlocked = false
 
     init(
         id: UUID = UUID(),

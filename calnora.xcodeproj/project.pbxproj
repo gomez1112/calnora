@@ -10,9 +10,9 @@
 		CCC307182FC472DD00C591AB /* FlexStore in Frameworks */ = {isa = PBXBuildFile; productRef = CCC307172FC472DD00C591AB /* FlexStore */; };
 		CCC3071B2FC472ED00C591AB /* EZSwiftData in Frameworks */ = {isa = PBXBuildFile; productRef = CCC3071A2FC472ED00C591AB /* EZSwiftData */; };
 		CCC3071E2FC4733100C591AB /* GentleNotification in Frameworks */ = {isa = PBXBuildFile; productRef = CCC3071D2FC4733100C591AB /* GentleNotification */; };
-		CCC307212FC4735500C591AB /* OnboardingKit in Frameworks */ = {isa = PBXBuildFile; productRef = CCC307202FC4735500C591AB /* OnboardingKit */; };
-		CCC307242FC474E800C591AB /* EZCharts in Frameworks */ = {isa = PBXBuildFile; productRef = CCC307232FC474E800C591AB /* EZCharts */; };
-		CCC307262FC474E800C591AB /* EZCharts3D in Frameworks */ = {isa = PBXBuildFile; productRef = CCC307252FC474E800C591AB /* EZCharts3D */; };
+		CCD905282FC4A3EB000CE7DD /* OnboardingKit in Frameworks */ = {isa = PBXBuildFile; productRef = CCD905272FC4A3EB000CE7DD /* OnboardingKit */; };
+		CCD9052B2FC4A583000CE7DD /* EZCharts in Frameworks */ = {isa = PBXBuildFile; productRef = CCD9052A2FC4A583000CE7DD /* EZCharts */; };
+		CCD9052D2FC4A583000CE7DD /* EZCharts3D in Frameworks */ = {isa = PBXBuildFile; productRef = CCD9052C2FC4A583000CE7DD /* EZCharts3D */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,10 +74,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CCC307212FC4735500C591AB /* OnboardingKit in Frameworks */,
+				CCD905282FC4A3EB000CE7DD /* OnboardingKit in Frameworks */,
 				CCC307182FC472DD00C591AB /* FlexStore in Frameworks */,
-				CCC307242FC474E800C591AB /* EZCharts in Frameworks */,
-				CCC307262FC474E800C591AB /* EZCharts3D in Frameworks */,
+				CCD9052B2FC4A583000CE7DD /* EZCharts in Frameworks */,
+				CCD9052D2FC4A583000CE7DD /* EZCharts3D in Frameworks */,
 				CCC3071B2FC472ED00C591AB /* EZSwiftData in Frameworks */,
 				CCC3071E2FC4733100C591AB /* GentleNotification in Frameworks */,
 			);
@@ -143,9 +143,9 @@
 				CCC307172FC472DD00C591AB /* FlexStore */,
 				CCC3071A2FC472ED00C591AB /* EZSwiftData */,
 				CCC3071D2FC4733100C591AB /* GentleNotification */,
-				CCC307202FC4735500C591AB /* OnboardingKit */,
-				CCC307232FC474E800C591AB /* EZCharts */,
-				CCC307252FC474E800C591AB /* EZCharts3D */,
+				CCD905272FC4A3EB000CE7DD /* OnboardingKit */,
+				CCD9052A2FC4A583000CE7DD /* EZCharts */,
+				CCD9052C2FC4A583000CE7DD /* EZCharts3D */,
 			);
 			productName = calnora;
 			productReference = CCC306E92FC4702F00C591AB /* calnora.app */;
@@ -233,8 +233,8 @@
 				CCC307162FC472DD00C591AB /* XCRemoteSwiftPackageReference "FlexStore" */,
 				CCC307192FC472ED00C591AB /* XCRemoteSwiftPackageReference "EZSwiftData" */,
 				CCC3071C2FC4733100C591AB /* XCRemoteSwiftPackageReference "GentleNotification" */,
-				CCC3071F2FC4735500C591AB /* XCLocalSwiftPackageReference "../../Swift Projects/Packages/OnboardingKit" */,
-				CCC307222FC474E800C591AB /* XCLocalSwiftPackageReference "../../Swift Projects/Packages/EZCharts" */,
+				CCD905262FC4A3EB000CE7DD /* XCRemoteSwiftPackageReference "OnboardingKit" */,
+				CCD905292FC4A583000CE7DD /* XCRemoteSwiftPackageReference "EZCharts" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = CCC306EA2FC4702F00C591AB /* Products */;
@@ -457,7 +457,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 26.5;
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.gerardgomez.calnora;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -507,7 +507,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 26.5;
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.gerardgomez.calnora;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -673,17 +673,6 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCLocalSwiftPackageReference section */
-		CCC3071F2FC4735500C591AB /* XCLocalSwiftPackageReference "../../Swift Projects/Packages/OnboardingKit" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = "../../Swift Projects/Packages/OnboardingKit";
-		};
-		CCC307222FC474E800C591AB /* XCLocalSwiftPackageReference "../../Swift Projects/Packages/EZCharts" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = "../../Swift Projects/Packages/EZCharts";
-		};
-/* End XCLocalSwiftPackageReference section */
-
 /* Begin XCRemoteSwiftPackageReference section */
 		CCC307162FC472DD00C591AB /* XCRemoteSwiftPackageReference "FlexStore" */ = {
 			isa = XCRemoteSwiftPackageReference;
@@ -709,6 +698,22 @@
 				kind = branch;
 			};
 		};
+		CCD905262FC4A3EB000CE7DD /* XCRemoteSwiftPackageReference "OnboardingKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/gomez1112/OnboardingKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.5.0;
+			};
+		};
+		CCD905292FC4A583000CE7DD /* XCRemoteSwiftPackageReference "EZCharts" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/gomez1112/EZCharts";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.2.3;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -727,17 +732,19 @@
 			package = CCC3071C2FC4733100C591AB /* XCRemoteSwiftPackageReference "GentleNotification" */;
 			productName = GentleNotification;
 		};
-		CCC307202FC4735500C591AB /* OnboardingKit */ = {
+		CCD905272FC4A3EB000CE7DD /* OnboardingKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = CCC3071F2FC4735500C591AB /* XCLocalSwiftPackageReference "../../Swift Projects/Packages/OnboardingKit" */;
+			package = CCD905262FC4A3EB000CE7DD /* XCRemoteSwiftPackageReference "OnboardingKit" */;
 			productName = OnboardingKit;
 		};
-		CCC307232FC474E800C591AB /* EZCharts */ = {
+		CCD9052A2FC4A583000CE7DD /* EZCharts */ = {
 			isa = XCSwiftPackageProductDependency;
+			package = CCD905292FC4A583000CE7DD /* XCRemoteSwiftPackageReference "EZCharts" */;
 			productName = EZCharts;
 		};
-		CCC307252FC474E800C591AB /* EZCharts3D */ = {
+		CCD9052C2FC4A583000CE7DD /* EZCharts3D */ = {
 			isa = XCSwiftPackageProductDependency;
+			package = CCD905292FC4A583000CE7DD /* XCRemoteSwiftPackageReference "EZCharts" */;
 			productName = EZCharts3D;
 		};
 /* End XCSwiftPackageProductDependency section */

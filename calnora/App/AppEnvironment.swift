@@ -68,24 +68,12 @@ final class AppEnvironment {
 }
 
 enum PersistenceController {
-    static let modelTypes: [any PersistentModel.Type] = [
-        UserProfile.self,
-        NutritionGoal.self,
-        MealEntry.self,
-        FoodItem.self,
-        FavoriteMeal.self,
-        WaterEntry.self,
-        WeightEntry.self,
-        CoachMessage.self,
-        CoachInsight.self,
-        PurchaseSnapshot.self,
-        PremiumContentPack.self
-    ]
+    static let modelTypes = CalnoraSchemaV1.models
 
     static func makeModelContainer(inMemory: Bool = false) -> ModelContainer {
         do {
             return try ModelContainerFactory.create(
-                for: modelTypes,
+                migrationPlan: CalnoraMigrationPlan.self,
                 isStoredInMemoryOnly: inMemory
             )
         } catch {

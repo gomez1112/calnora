@@ -3,9 +3,9 @@ import SwiftData
 
 @Model
 final class WeightEntry {
-    @Attribute(.unique) var id: UUID
-    var date: Date
-    var weight: Double
+    var id = UUID()
+    var date = Date()
+    var weight = 0.0
 
     init(id: UUID = UUID(), date: Date = .now, weight: Double) {
         self.id = id

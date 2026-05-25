@@ -3,18 +3,15 @@ import SwiftData
 
 @Model
 final class CoachMessage {
-    @Attribute(.unique) var id: UUID
-    var date: Date
-    var role: CoachRole
-    var content: String
+    var date = Date()
+    var role: CoachRole = CoachRole.assistant
+    var content = ""
 
     init(
-        id: UUID = UUID(),
         date: Date = .now,
         role: CoachRole,
         content: String
     ) {
-        self.id = id
         self.date = date
         self.role = role
         self.content = content

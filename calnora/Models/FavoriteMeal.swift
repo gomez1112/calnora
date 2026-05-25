@@ -3,16 +3,14 @@ import SwiftData
 
 @Model
 final class FavoriteMeal {
-    @Attribute(.unique) var id: UUID
-    var name: String
-    @Relationship(deleteRule: .nullify) var mealItems: [FoodItem]
-    var totalCalories: Double
-    var totalProtein: Double
-    var totalCarbs: Double
-    var totalFat: Double
+    var name = ""
+    @Relationship(deleteRule: .nullify, inverse: \FoodItem.favoriteMeals) var mealItems: [FoodItem]? = []
+    var totalCalories = 0.0
+    var totalProtein  = 0.0
+    var totalCarbs  = 0.0
+    var totalFat  = 0.0
 
     init(
-        id: UUID = UUID(),
         name: String,
         mealItems: [FoodItem] = [],
         totalCalories: Double = 0,
@@ -20,7 +18,6 @@ final class FavoriteMeal {
         totalCarbs: Double = 0,
         totalFat: Double = 0
     ) {
-        self.id = id
         self.name = name
         self.mealItems = mealItems
         self.totalCalories = totalCalories

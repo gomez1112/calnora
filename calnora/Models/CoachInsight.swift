@@ -3,20 +3,17 @@ import SwiftData
 
 @Model
 final class CoachInsight {
-    @Attribute(.unique) var id: UUID
-    var date: Date
-    var title: String
-    var message: String
-    var insightType: CoachInsightType
+    var date = Date()
+    var title = ""
+    var message = ""
+    var insightType = CoachInsightType.calorieTrend
 
     init(
-        id: UUID = UUID(),
         date: Date = .now,
         title: String,
         message: String,
         insightType: CoachInsightType
     ) {
-        self.id = id
         self.date = date
         self.title = title
         self.message = message

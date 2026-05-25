@@ -3,16 +3,16 @@ import SwiftData
 
 @Model
 final class NutritionGoal {
-    @Attribute(.unique) var id: UUID
-    var calories: Double
-    var protein: Double
-    var carbs: Double
-    var fat: Double
-    var fiber: Double
-    var water: Double
-    var goalType: GoalType
-    var createdAt: Date
-    var updatedAt: Date
+    var id = UUID()
+    var calories = 2_100.0
+    var protein = 130.0
+    var carbs = 230.0
+    var fat = 70.0
+    var fiber = 28.0
+    var water = 80.0
+    var goalType = GoalType.improveHabits
+    var createdAt = Date()
+    var updatedAt = Date()
 
     init(
         id: UUID = UUID(),

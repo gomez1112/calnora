@@ -1,6 +1,15 @@
 {
-  "originHash" : "907a390a26831822984d47c81f51bb84e5526dc25c02896dfe16200d59a6004a",
+  "originHash" : "05e6630cbea51ab7ce7b374e1a620de19d7ecd8fef669e616f4ba5b56d2193ed",
   "pins" : [
+    {
+      "identity" : "ezcharts",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/gomez1112/EZCharts",
+      "state" : {
+        "revision" : "ec629ff8f50508be36f0b9e749383b49e0fc6ba5",
+        "version" : "0.2.3"
+      }
+    },
     {
       "identity" : "ezswiftdata",
       "kind" : "remoteSourceControl",
@@ -26,6 +35,15 @@
       "state" : {
         "branch" : "main",
         "revision" : "8ff5a73598253451bff3aa4de1b25bfaada45701"
+      }
+    },
+    {
+      "identity" : "onboardingkit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/gomez1112/OnboardingKit",
+      "state" : {
+        "revision" : "44864b3780fc0b1863433bee38514402b3375c75",
+        "version" : "1.5.1"
       }
     }
   ],

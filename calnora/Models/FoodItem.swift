@@ -3,19 +3,18 @@ import SwiftData
 
 @Model
 final class FoodItem {
-    @Attribute(.unique) var id: UUID
-    var name: String
-    var caloriesPerServing: Double
-    var protein: Double
-    var carbs: Double
-    var fat: Double
-    var fiber: Double
-    var sugar: Double
-    var servingDescription: String
-    var isCustom: Bool
+    var name = ""
+    var caloriesPerServing = 0.0
+    var protein = 0.0
+    var carbs = 0.0
+    var fat = 0.0
+    var fiber = 0.0
+    var sugar = 0.0
+    var servingDescription = ""
+    var isCustom = false
+    var favoriteMeals: [FavoriteMeal]? = []
 
     init(
-        id: UUID = UUID(),
         name: String,
         caloriesPerServing: Double,
         protein: Double,
@@ -26,7 +25,6 @@ final class FoodItem {
         servingDescription: String = "1 serving",
         isCustom: Bool = false
     ) {
-        self.id = id
         self.name = name
         self.caloriesPerServing = caloriesPerServing
         self.protein = protein

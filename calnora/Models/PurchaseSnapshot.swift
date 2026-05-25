@@ -3,12 +3,12 @@ import SwiftData
 
 @Model
 final class PurchaseSnapshot {
-    @Attribute(.unique) var id: UUID
-    var date: Date
-    var hasPro: Bool
-    var hasLifetime: Bool
-    var hasHighProteinPack: Bool
-    var activeProductIDs: [String]
+    var id = UUID()
+    var date = Date()
+    var hasPro = false
+    var hasLifetime = false
+    var hasHighProteinPack = false
+    var activeProductIDs: [String] = []
 
     init(
         id: UUID = UUID(),

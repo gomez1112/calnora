@@ -3,20 +3,20 @@ import SwiftData
 
 @Model
 final class UserProfile {
-    @Attribute(.unique) var id: UUID
-    var createdAt: Date
-    var updatedAt: Date
-    var displayName: String
-    var goal: GoalType
-    var ageRange: AgeRange
-    var height: Double
-    var weight: Double
-    var activityLevel: ActivityLevel
-    var dietaryPreference: DietaryPreference
-    var allergies: [String]
-    var avoidedFoods: [String]
-    var preferredUnits: PreferredUnits
-    var hasCompletedOnboarding: Bool
+    var id = UUID()
+    var createdAt = Date()
+    var updatedAt = Date()
+    var displayName = ""
+    var goal = GoalType.improveHabits
+    var ageRange = AgeRange.twentyFiveToThirtyFour
+    var height = 68.0
+    var weight = 165.0
+    var activityLevel = ActivityLevel.moderate
+    var dietaryPreference = DietaryPreference.balanced
+    var allergies: [String] = []
+    var avoidedFoods: [String] = []
+    var preferredUnits = PreferredUnits.imperial
+    var hasCompletedOnboarding = false
 
     init(
         id: UUID = UUID(),

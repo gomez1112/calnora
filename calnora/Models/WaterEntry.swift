@@ -3,9 +3,9 @@ import SwiftData
 
 @Model
 final class WaterEntry {
-    @Attribute(.unique) var id: UUID
-    var date: Date
-    var amount: Double
+    var id = UUID()
+    var date = Date()
+    var amount = 0.0
 
     init(id: UUID = UUID(), date: Date = .now, amount: Double) {
         self.id = id
