@@ -14,15 +14,8 @@ struct PremiumPackView: View {
                     subtitle: "20 local meal ideas\(priceSuffix)",
                     systemImage: "takeoutbag.and.cup.and.straw",
                     footnote: "Values are approximate and intended for planning.",
-                    actionTitle: purchaseStore.entitlements.hasHighProteinPack ? nil : "Unlock"
-                ) {
-                    Task {
-                        await purchaseStore.purchase(productID: CalnoraProductID.highProteinPack)
-                        if purchaseStore.purchaseState == .purchased {
-                            notificationStore.purchaseSuccessful()
-                        }
-                    }
-                }
+                    actionTitle: nil
+                )
 
                 if purchaseStore.entitlements.hasHighProteinPack {
                     ForEach(PremiumContentService.highProteinIdeas()) { idea in
@@ -49,16 +42,7 @@ struct PremiumPackView: View {
                         systemImage: "lock.fill",
                         tint: CalnoraColors.protein
                     )
-                    Button("Unlock High Protein Pack", systemImage: "takeoutbag.and.cup.and.straw") {
-                        Task {
-                            await purchaseStore.purchase(productID: CalnoraProductID.highProteinPack)
-                            if purchaseStore.purchaseState == .purchased {
-                                notificationStore.purchaseSuccessful()
-                            }
-                        }
-                    }
-                    .buttonStyle(.borderedProminent)
-                    .disabled(purchaseStore.storeKitService.product(for: CalnoraProductID.highProteinPack) == nil)
+                    highProteinPurchaseButton
 
                     ForEach(PremiumContentService.highProteinIdeas().prefix(3)) { idea in
                         LockedMealIdeaRow(idea: idea)
@@ -69,9 +53,25 @@ struct PremiumPackView: View {
         }
         .background(CalnoraColors.groupedBackground)
         .navigationTitle("Premium Pack")
-        .task {
-            await purchaseStore.configure()
+        .onChange(of: purchaseStore.storeKitService.purchasedNonConsumables) { _, owned in
+            guard owned.contains(CalnoraProductID.highProteinPack) else { return }
+            purchaseStore.purchaseState = .purchased
+            purchaseStore.persistSnapshot()
+            notificationStore.purchaseSuccessful()
         }
+    }
+
+    private var highProteinPurchaseButton: some View {
+        NonConsumablePurchaseButton<CalnoraSubscriptionTier>(
+            productID: CalnoraProductID.highProteinPack,
+            title: "Unlock High Protein Pack",
+            purchasedTitle: "Pack Unlocked"
+        )
+        .label { state in
+            Label(highProteinButtonTitle(for: state), systemImage: "takeoutbag.and.cup.and.straw")
+        }
+        .buttonStyle(.borderedProminent)
+        .disabled(purchaseStore.storeKitService.product(for: CalnoraProductID.highProteinPack) == nil)
     }
 
     private var priceSuffix: String {
@@ -79,6 +79,17 @@ struct PremiumPackView: View {
             return ""
         }
         return " · \(price)"
+    }
+
+    private func highProteinButtonTitle(for state: FlexStoreNonConsumablePurchaseState) -> String {
+        switch state {
+        case .purchasing:
+            "Purchasing"
+        case .purchased:
+            "Pack Unlocked"
+        default:
+            "Unlock High Protein Pack"
+        }
     }
 }
 

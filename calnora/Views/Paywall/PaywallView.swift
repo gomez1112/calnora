@@ -10,22 +10,9 @@ struct PaywallView: View {
     var body: some View {
         ScrollView {
             LazyVStack(alignment: .leading, spacing: CalnoraSpacing.large) {
-                WalletPassCard(
-                    title: "Unlock your AI nutrition coach",
-                    subtitle: "Private estimates, daily coaching, and premium trends.",
-                    systemImage: "sparkles",
-                    footnote: "Estimates stay approximate and editable. No medical claims."
-                )
-
-                VStack(alignment: .leading, spacing: CalnoraSpacing.small) {
-                    ForEach(model.benefits, id: \.self) { benefit in
-                        Label(benefit, systemImage: "checkmark.circle.fill")
-                            .foregroundStyle(.primary, CalnoraColors.success)
-                    }
-                }
-                .calnoraCard(tint: CalnoraColors.success)
-
-                productOptions
+                subscriptionOptions
+                featureList
+                lifetimeUnlock
 
                 LabeledContent("Purchase status", value: purchaseStore.purchaseState.rawValue.capitalized)
                     .font(.footnote.weight(.semibold))
@@ -34,7 +21,10 @@ struct PaywallView: View {
 
                 Button("Restore Purchases", systemImage: "arrow.clockwise") {
                     Task {
-                        await purchaseStore.restorePurchases()
+                        purchaseStore.purchaseState = .loadingProducts
+                        await purchaseStore.storeKitService.restorePurchases()
+                        purchaseStore.purchaseState = .restored
+                        purchaseStore.persistSnapshot()
                         notificationStore.restoreComplete()
                     }
                 }
@@ -53,9 +43,6 @@ struct PaywallView: View {
         }
         .background(CalnoraColors.groupedBackground)
         .navigationTitle("Calnora Pro")
-        .task {
-            await purchaseStore.configure()
-        }
         .onChange(of: purchaseStore.purchaseState) { _, state in
             if state == .purchased {
                 notificationStore.purchaseSuccessful()
@@ -67,86 +54,105 @@ struct PaywallView: View {
                 )
             }
         }
-    }
-
-    private var productOptions: some View {
-        VStack(spacing: CalnoraSpacing.medium) {
-            PaywallProductCard(
-                title: "Weekly Pro",
-                subtitle: "Flexible access",
-                badge: nil,
-                productID: CalnoraProductID.weeklyPro
-            )
-            PaywallProductCard(
-                title: "Monthly Pro",
-                subtitle: "Full AI coach access",
-                badge: nil,
-                productID: CalnoraProductID.monthlyPro
-            )
-            PaywallProductCard(
-                title: "Yearly Pro",
-                subtitle: "Best value for consistent tracking",
-                badge: "Best Value",
-                productID: CalnoraProductID.yearlyPro
-            )
-            PaywallProductCard(
-                title: "Lifetime Pro",
-                subtitle: "One-time unlock for core Pro features",
-                badge: "One Time",
-                productID: CalnoraProductID.lifetimePro
-            )
+        .onChange(of: purchaseStore.storeKitService.subscriptionTier) { _, tier in
+            guard tier == .pro else { return }
+            purchaseStore.purchaseState = .purchased
+            purchaseStore.persistSnapshot()
         }
     }
-}
 
-private struct PaywallProductCard: View {
-    @Environment(PurchaseStore.self) private var purchaseStore
-    var title: String
-    var subtitle: String
-    var badge: String?
-    var productID: String
+    private var subscriptionOptions: some View {
+        SubscriptionPassStoreView<CalnoraSubscriptionTier, WalletPassCard>(
+            groupID: CalnoraProductID.subscriptionGroupID,
+            iconProvider: subscriptionIcon
+        ) {
+            WalletPassCard(
+                title: "Unlock your AI nutrition coach",
+                subtitle: "Private estimates, daily coaching, and premium trends.",
+                systemImage: "sparkles",
+                footnote: "Estimates stay approximate and editable. No medical claims."
+            )
+        }
+        .calnoraCard(tint: CalnoraColors.coach)
+    }
 
-    var body: some View {
-        HStack(spacing: CalnoraSpacing.medium) {
-            VStack(alignment: .leading, spacing: 4) {
-                HStack {
-                    Text(title)
-                        .font(.headline)
-                    if let badge {
-                        Text(badge)
+    private var featureList: some View {
+        VStack(spacing: CalnoraSpacing.small) {
+            ForEach(model.features) { feature in
+                FlexDefaultFeatureRow(feature)
+            }
+        }
+    }
+
+    private var lifetimeUnlock: some View {
+        VStack(alignment: .leading, spacing: CalnoraSpacing.medium) {
+            HStack(alignment: .top, spacing: CalnoraSpacing.medium) {
+                Image(systemName: "infinity.circle.fill")
+                    .font(.title2)
+                    .foregroundStyle(CalnoraColors.coach)
+
+                VStack(alignment: .leading, spacing: 4) {
+                    HStack {
+                        Text("Lifetime Pro")
+                            .font(.headline)
+                        Text("One Time")
                             .font(.caption.weight(.bold))
                             .padding(.horizontal, 8)
                             .padding(.vertical, 4)
                             .background(CalnoraColors.coach.opacity(0.16), in: .capsule)
                             .foregroundStyle(CalnoraColors.coach)
                     }
+                    Text("Unlock core Pro features without a subscription.")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
                 }
-                Text(subtitle)
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
             }
-            Spacer()
-            VStack(alignment: .trailing, spacing: 8) {
-                Text(purchaseStore.storeKitService.product(for: productID)?.displayPrice ?? "Loading")
-                    .font(.headline.monospacedDigit())
-                Button(buttonTitle) {
-                    Task { await purchaseStore.purchase(productID: productID) }
+
+            NonConsumablePurchaseButton<CalnoraSubscriptionTier>(
+                productID: CalnoraProductID.lifetimePro,
+                title: "Buy Lifetime",
+                purchasedTitle: "Lifetime Owned"
+            )
+            .label { state in
+                HStack {
+                    Text(lifetimeButtonTitle(for: state))
+                    Spacer()
+                    Text(purchaseStore.storeKitService.product(for: CalnoraProductID.lifetimePro)?.displayPrice ?? "")
+                        .font(.headline.monospacedDigit())
                 }
-                .buttonStyle(.borderedProminent)
-                .disabled(purchaseStore.storeKitService.product(for: productID) == nil || purchaseStore.purchaseState == .purchasing)
+            }
+            .buttonStyle(.borderedProminent)
+            .disabled(purchaseStore.storeKitService.product(for: CalnoraProductID.lifetimePro) == nil)
+            .onChange(of: purchaseStore.storeKitService.purchasedNonConsumables) { _, owned in
+                guard owned.contains(CalnoraProductID.lifetimePro) else { return }
+                purchaseStore.purchaseState = .purchased
+                purchaseStore.persistSnapshot()
             }
         }
         .calnoraCard(tint: CalnoraColors.coach, isInteractive: true)
     }
 
-    private var buttonTitle: String {
-        switch purchaseStore.purchaseState {
+    private func subscriptionIcon(for tier: CalnoraSubscriptionTier, product: Product) -> Image {
+        switch product.id {
+        case CalnoraProductID.yearlyPro:
+            Image(systemName: "crown")
+        case CalnoraProductID.monthlyPro:
+            Image(systemName: "sparkles")
+        case CalnoraProductID.weeklyPro:
+            Image(systemName: "calendar.badge.clock")
+        default:
+            Image(systemName: tier == .pro ? "checkmark.seal" : "circle")
+        }
+    }
+
+    private func lifetimeButtonTitle(for state: FlexStoreNonConsumablePurchaseState) -> String {
+        switch state {
         case .purchasing:
             "Purchasing"
-        case .purchased where purchaseStore.owns(productID):
-            "Owned"
+        case .purchased:
+            "Lifetime Owned"
         default:
-            "Choose"
+            "Buy Lifetime"
         }
     }
 }

@@ -44,45 +44,6 @@ final class PurchaseStore {
         )
     }
 
-    func configure() async {
-        purchaseState = .loadingProducts
-        await storeKitService.configure(
-            productIDs: CalnoraProductID.all,
-            subscriptionGroupID: CalnoraProductID.subscriptionGroupID
-        )
-        persistSnapshot()
-        purchaseState = .ready
-    }
-
-    func restorePurchases() async {
-        await storeKitService.restorePurchases()
-        persistSnapshot()
-        purchaseState = .restored
-    }
-
-    func purchase(productID: String) async {
-        purchaseState = .purchasing
-        do {
-            let outcome = try await storeKitService.purchase(productID: productID)
-            switch outcome {
-            case .success:
-                persistSnapshot()
-                purchaseState = .purchased
-            case .cancelled:
-                purchaseState = .cancelled
-            case .pending:
-                purchaseState = .pending
-            }
-        } catch {
-            purchaseState = .failed
-            lastErrorMessage = error.localizedDescription
-        }
-    }
-
-    func owns(_ productID: String) -> Bool {
-        storeKitService.purchasedNonConsumables.contains(productID)
-    }
-
     func purchaseSnapshots() -> [ExportedPurchaseSnapshot] {
         guard let context else { return [] }
         let descriptor = FetchDescriptor<PurchaseSnapshot>(

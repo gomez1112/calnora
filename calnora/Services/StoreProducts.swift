@@ -12,7 +12,7 @@ nonisolated enum CalnoraProductID {
     static let nonConsumables: Set<String> = [lifetimePro, highProteinPack]
     static let all: Set<String> = subscriptions.union(nonConsumables)
 
-    static let subscriptionGroupID = "CALNORA_PRO"
+    static let subscriptionGroupID = "CA1A2001"
 }
 
 nonisolated enum CalnoraSubscriptionTier: Int, CaseIterable, SubscriptionTier {

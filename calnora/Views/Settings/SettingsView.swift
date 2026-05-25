@@ -50,7 +50,8 @@ struct SettingsView: View {
                 ManageSubscriptionsButton()
                 Button("Restore Purchases", systemImage: "arrow.clockwise") {
                     Task {
-                        await purchaseStore.restorePurchases()
+                        await purchaseStore.storeKitService.restorePurchases()
+                        purchaseStore.persistSnapshot()
                         notificationStore.restoreComplete()
                     }
                 }

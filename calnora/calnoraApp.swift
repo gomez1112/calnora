@@ -1,3 +1,4 @@
+import FlexStore
 import SwiftData
 import SwiftUI
 
@@ -16,7 +17,11 @@ struct CalnoraApp: App {
                 .environment(environment.coachStore)
                 .environment(environment.purchaseStore)
                 .environment(environment.notificationStore)
-                .environment(environment.purchaseStore.storeKitService)
+                .attachStoreKit(
+                    manager: environment.purchaseStore.storeKitService,
+                    groupID: CalnoraProductID.subscriptionGroupID,
+                    ids: CalnoraProductID.all
+                )
                 .modelContainer(environment.modelContainer)
         }
 
@@ -31,7 +36,11 @@ struct CalnoraApp: App {
                 .environment(environment.coachStore)
                 .environment(environment.purchaseStore)
                 .environment(environment.notificationStore)
-                .environment(environment.purchaseStore.storeKitService)
+                .attachStoreKit(
+                    manager: environment.purchaseStore.storeKitService,
+                    groupID: CalnoraProductID.subscriptionGroupID,
+                    ids: CalnoraProductID.all
+                )
                 .modelContainer(environment.modelContainer)
                 .frame(minWidth: 560, minHeight: 640)
         }

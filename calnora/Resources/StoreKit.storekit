@@ -1,75 +1,196 @@
 {
-  "identifier": "CalnoraStoreKitConfiguration",
-  "nonRenewingSubscriptions": [],
-  "products": [
+  "appPolicies" : {
+    "eula" : "",
+    "policies" : [
+      {
+        "locale" : "en_US",
+        "policyText" : "",
+        "policyURL" : ""
+      }
+    ]
+  },
+  "identifier" : "CA1A0001",
+  "nonRenewingSubscriptions" : [
+
+  ],
+  "products" : [
     {
-      "displayPrice": "49.99",
-      "familyShareable": false,
-      "internalID": "calnora-lifetime-pro",
-      "localizations": [{"description": "Lifetime Pro unlock for Calnora.", "displayName": "Lifetime Pro", "locale": "en_US"}],
-      "productID": "com.gerardgomez.calnora.pro.lifetime",
-      "referenceName": "Lifetime Pro",
-      "type": "NonConsumable"
+      "displayPrice" : "49.99",
+      "familyShareable" : false,
+      "internalID" : "CA1A1001",
+      "localizations" : [
+        {
+          "description" : "Lifetime Pro unlock for Calnora.",
+          "displayName" : "Lifetime Pro",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.gerardgomez.calnora.pro.lifetime",
+      "referenceName" : "Lifetime Pro",
+      "type" : "NonConsumable"
     },
     {
-      "displayPrice": "4.99",
-      "familyShareable": false,
-      "internalID": "calnora-high-protein-pack",
-      "localizations": [{"description": "High-protein local meal idea pack.", "displayName": "High Protein Pack", "locale": "en_US"}],
-      "productID": "com.gerardgomez.calnora.pack.highprotein",
-      "referenceName": "High Protein Pack",
-      "type": "NonConsumable"
+      "displayPrice" : "4.99",
+      "familyShareable" : false,
+      "internalID" : "CA1A1002",
+      "localizations" : [
+        {
+          "description" : "High-protein local meal idea pack.",
+          "displayName" : "High Protein Pack",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "com.gerardgomez.calnora.pack.highprotein",
+      "referenceName" : "High Protein Pack",
+      "type" : "NonConsumable"
     }
   ],
-  "settings": {
-    "askToBuyEnabled": false,
-    "billingGracePeriodEnabled": false,
-    "billingRetryEnabled": false,
-    "locale": "en_US",
-    "storefront": "USA",
-    "storeKitErrors": []
+  "settings" : {
+    "_askToBuyEnabled" : false,
+    "_billingGracePeriodEnabled" : false,
+    "_billingIssuesEnabled" : false,
+    "_disableDialogs" : false,
+    "_failTransactionsEnabled" : false,
+    "_locale" : "en_US",
+    "_renewalBillingIssuesEnabled" : false,
+    "_storefront" : "USA",
+    "_storeKitErrors" : [
+      {
+        "enabled" : false,
+        "name" : "Load Products"
+      },
+      {
+        "enabled" : false,
+        "name" : "Purchase"
+      },
+      {
+        "enabled" : false,
+        "name" : "Verification"
+      },
+      {
+        "enabled" : false,
+        "name" : "App Store Sync"
+      },
+      {
+        "enabled" : false,
+        "name" : "Subscription Status"
+      },
+      {
+        "enabled" : false,
+        "name" : "App Transaction"
+      },
+      {
+        "enabled" : false,
+        "name" : "Manage Subscriptions Sheet"
+      },
+      {
+        "enabled" : false,
+        "name" : "Refund Request Sheet"
+      },
+      {
+        "enabled" : false,
+        "name" : "Offer Code Redeem Sheet"
+      }
+    ],
+    "_timeRate" : 0
   },
-  "subscriptionGroups": [
+  "subscriptionGroups" : [
     {
-      "id": "CALNORA_PRO",
-      "localizations": [{"locale": "en_US", "name": "Calnora Pro"}],
-      "name": "Calnora Pro",
-      "subscriptions": [
+      "id" : "CA1A2001",
+      "localizations" : [
+
+      ],
+      "name" : "Calnora Pro",
+      "subscriptions" : [
         {
-          "displayPrice": "1.99",
-          "familyShareable": false,
-          "groupNumber": 1,
-          "internalID": "calnora-weekly-pro",
-          "introductoryOffer": null,
-          "localizations": [{"description": "Weekly Pro subscription for Calnora.", "displayName": "Weekly Pro", "locale": "en_US"}],
-          "productID": "com.gerardgomez.calnora.pro.weekly",
-          "recurringSubscriptionPeriod": "P1W",
-          "referenceName": "Weekly Pro"
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "1.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "CA1A3001",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "Weekly Pro subscription for Calnora.",
+              "displayName" : "Weekly Pro",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "com.gerardgomez.calnora.pro.weekly",
+          "recurringSubscriptionPeriod" : "P1W",
+          "referenceName" : "Weekly Pro",
+          "subscriptionGroupID" : "CA1A2001",
+          "type" : "RecurringSubscription",
+          "winbackOffers" : [
+
+          ]
         },
         {
-          "displayPrice": "7.99",
-          "familyShareable": false,
-          "groupNumber": 2,
-          "internalID": "calnora-monthly-pro",
-          "introductoryOffer": null,
-          "localizations": [{"description": "Monthly Pro subscription for Calnora.", "displayName": "Monthly Pro", "locale": "en_US"}],
-          "productID": "com.gerardgomez.calnora.pro.monthly",
-          "recurringSubscriptionPeriod": "P1M",
-          "referenceName": "Monthly Pro"
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "7.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "CA1A3002",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "Monthly Pro subscription for Calnora.",
+              "displayName" : "Monthly Pro",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "com.gerardgomez.calnora.pro.monthly",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "Monthly Pro",
+          "subscriptionGroupID" : "CA1A2001",
+          "type" : "RecurringSubscription",
+          "winbackOffers" : [
+
+          ]
         },
         {
-          "displayPrice": "49.99",
-          "familyShareable": false,
-          "groupNumber": 3,
-          "internalID": "calnora-yearly-pro",
-          "introductoryOffer": null,
-          "localizations": [{"description": "Yearly Pro subscription for Calnora.", "displayName": "Yearly Pro", "locale": "en_US"}],
-          "productID": "com.gerardgomez.calnora.pro.yearly",
-          "recurringSubscriptionPeriod": "P1Y",
-          "referenceName": "Yearly Pro"
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "49.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "CA1A3003",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "Yearly Pro subscription for Calnora.",
+              "displayName" : "Yearly Pro",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "com.gerardgomez.calnora.pro.yearly",
+          "recurringSubscriptionPeriod" : "P1Y",
+          "referenceName" : "Yearly Pro",
+          "subscriptionGroupID" : "CA1A2001",
+          "type" : "RecurringSubscription",
+          "winbackOffers" : [
+
+          ]
         }
       ]
     }
   ],
-  "version": {"major": 4, "minor": 0}
+  "version" : {
+    "major" : 4,
+    "minor" : 0
+  }
 }

@@ -107,7 +107,6 @@ struct RootView: View {
 
     private func appDidAppear() async {
         await notificationStore.refreshPermissionStatus()
-        await purchaseStore.configure()
     }
 }
 
