@@ -1,24 +1,23 @@
-//
-//  ContentView.swift
-//  calnora
-//
-//  Created by Gerard Gomez on 5/25/26.
-//
-
 import SwiftUI
 
 struct ContentView: View {
-    var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
-        }
-        .padding()
-    }
-}
+  @State private var model = CalnoraDashboardModel()
 
-#Preview {
-    ContentView()
+  var body: some View {
+    NavigationStack {
+      ScrollView {
+        CalnoraDashboardView(model: model)
+          .frame(maxWidth: .infinity)
+      }
+      .background(CalnoraTheme.pageBackground)
+      .navigationTitle("Calnora")
+      .toolbar {
+        ToolbarItemGroup(placement: .topBarTrailing) {
+          Button("Search", systemImage: "magnifyingglass", action: model.search)
+          Button("Add Event", systemImage: "plus", action: model.addEvent)
+        }
+      }
+    }
+    .tint(CalnoraTheme.accent)
+  }
 }

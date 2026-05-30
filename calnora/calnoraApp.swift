@@ -8,7 +8,7 @@
 import SwiftUI
 
 @main
-struct calnoraApp: App {
+struct CalnoraApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
