@@ -33,9 +33,7 @@ struct SettingsView: View {
                 aboutCard
                     .stagger(4, hasAppeared: hasAppeared)
             }
-            .padding(.horizontal, CalnoraSpacing.medium)
-            .padding(.top, CalnoraSpacing.medium)
-            .padding(.bottom, CalnoraSpacing.xLarge)
+            .calnoraScreenContent(maxWidth: CalnoraSpacing.readableMaxWidth)
         }
         .calnoraAmbientBackground()
         .scrollIndicators(.hidden)

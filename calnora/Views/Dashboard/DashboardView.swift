@@ -18,32 +18,63 @@ struct DashboardView: View {
 
     var body: some View {
         ScrollView {
-            VStack(spacing: CalnoraSpacing.large) {
-                greetingHeader
+            ViewThatFits(in: .horizontal) {
+                HStack(alignment: .top, spacing: CalnoraSpacing.xLarge) {
+                    VStack(spacing: CalnoraSpacing.large) {
+                        greetingHeader
 
-                heroRing
-                    .stagger(0, hasAppeared: hasAppeared)
+                        heroRing
+                            .stagger(0, hasAppeared: hasAppeared)
 
-                macroLines
-                    .stagger(1, hasAppeared: hasAppeared)
+                        coachWhisper
+                            .stagger(2, hasAppeared: hasAppeared)
 
-                coachWhisper
-                    .stagger(2, hasAppeared: hasAppeared)
+                        if !purchaseStore.entitlements.unlocksPro {
+                            proPass
+                                .stagger(5, hasAppeared: hasAppeared)
+                        }
+                    }
+                    .frame(minWidth: 400, maxWidth: 460)
 
-                mealRibbon
-                    .stagger(3, hasAppeared: hasAppeared)
+                    VStack(spacing: CalnoraSpacing.large) {
+                        macroLines
+                            .stagger(1, hasAppeared: hasAppeared)
 
-                wellnessRow
-                    .stagger(4, hasAppeared: hasAppeared)
+                        mealRibbon
+                            .stagger(3, hasAppeared: hasAppeared)
 
-                if !purchaseStore.entitlements.unlocksPro {
-                    proPass
-                        .stagger(5, hasAppeared: hasAppeared)
+                        wellnessRow
+                            .stagger(4, hasAppeared: hasAppeared)
+                    }
+                    .frame(minWidth: 520, maxWidth: .infinity)
                 }
+                .calnoraScreenContent()
+
+                VStack(spacing: CalnoraSpacing.large) {
+                    greetingHeader
+
+                    heroRing
+                        .stagger(0, hasAppeared: hasAppeared)
+
+                    macroLines
+                        .stagger(1, hasAppeared: hasAppeared)
+
+                    coachWhisper
+                        .stagger(2, hasAppeared: hasAppeared)
+
+                    mealRibbon
+                        .stagger(3, hasAppeared: hasAppeared)
+
+                    wellnessRow
+                        .stagger(4, hasAppeared: hasAppeared)
+
+                    if !purchaseStore.entitlements.unlocksPro {
+                        proPass
+                            .stagger(5, hasAppeared: hasAppeared)
+                    }
+                }
+                .calnoraScreenContent(maxWidth: CalnoraSpacing.readableMaxWidth)
             }
-            .padding(.horizontal, CalnoraSpacing.medium)
-            .padding(.top, CalnoraSpacing.medium)
-            .padding(.bottom, CalnoraSpacing.xLarge)
         }
         .calnoraAmbientBackground()
         .scrollIndicators(.hidden)
@@ -151,7 +182,8 @@ struct DashboardView: View {
 
                 VStack(spacing: 6) {
                     Text(Int(remaining.rounded()), format: .number)
-                        .font(.system(size: 64, weight: .bold, design: .rounded))
+                        .font(.system(.largeTitle, design: .rounded, weight: .bold))
+                        .dynamicTypeSize(...DynamicTypeSize.accessibility3)
                         .monospacedDigit()
                         .contentTransition(.numericText(value: remaining))
                         .foregroundStyle(.primary)
@@ -161,7 +193,7 @@ struct DashboardView: View {
                 }
                 .animation(.smooth(duration: 0.6), value: remaining)
             }
-            .frame(width: 250, height: 250)
+            .frame(width: 270, height: 270)
 
             HStack(spacing: CalnoraSpacing.large) {
                 statColumn(value: "\(consumed)", caption: "Eaten")

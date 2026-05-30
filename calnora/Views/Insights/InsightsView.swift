@@ -49,9 +49,7 @@ struct InsightsView: View {
                 mealTimingCard
                     .stagger(6, hasAppeared: hasAppeared)
             }
-            .padding(.horizontal, CalnoraSpacing.medium)
-            .padding(.top, CalnoraSpacing.medium)
-            .padding(.bottom, CalnoraSpacing.xLarge)
+            .calnoraScreenContent()
         }
         .calnoraAmbientBackground()
         .scrollIndicators(.hidden)

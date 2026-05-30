@@ -31,9 +31,7 @@ struct HistoryView: View {
                 weightCard
                     .stagger(4, hasAppeared: hasAppeared)
             }
-            .padding(.horizontal, CalnoraSpacing.medium)
-            .padding(.top, CalnoraSpacing.medium)
-            .padding(.bottom, CalnoraSpacing.xLarge)
+            .calnoraScreenContent()
         }
         .calnoraAmbientBackground()
         .scrollIndicators(.hidden)

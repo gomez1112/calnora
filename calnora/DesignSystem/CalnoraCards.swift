@@ -10,8 +10,12 @@ struct CalnoraCardModifier: ViewModifier {
             .padding(CalnoraSpacing.medium)
             .background {
                 RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
-                    .fill(.background)
-                    .shadow(color: .black.opacity(0.08), radius: 18, x: 0, y: 8)
+                    .fill(.background.opacity(0.72))
+                    .overlay {
+                        RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
+                            .stroke(.white.opacity(0.42), lineWidth: 0.8)
+                    }
+                    .shadow(color: .black.opacity(0.06), radius: 24, x: 0, y: 14)
             }
             .calnoraGlass(cornerRadius: cornerRadius, tint: tint, isInteractive: isInteractive)
     }
@@ -43,5 +47,14 @@ extension View {
         } else {
             self.background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
         }
+    }
+
+    func calnoraScreenContent(maxWidth: CGFloat = CalnoraSpacing.screenMaxWidth) -> some View {
+        self
+            .frame(maxWidth: maxWidth, alignment: .top)
+            .frame(maxWidth: .infinity, alignment: .top)
+            .padding(.horizontal, CalnoraSpacing.medium)
+            .padding(.top, CalnoraSpacing.large)
+            .padding(.bottom, CalnoraSpacing.xxLarge)
     }
 }

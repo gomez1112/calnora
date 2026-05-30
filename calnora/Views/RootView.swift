@@ -30,6 +30,13 @@ struct RootView: View {
                         }
                     }
 
+                    Tab(AppTab.coach.title, systemImage: AppTab.coach.systemImage, value: AppTab.coach) {
+                        NavigationStack(path: $router.coachPath) {
+                            CoachChatView(quotaManager: quotaManager)
+                                .navigationDestination(for: AppRoute.self, destination: destination)
+                        }
+                    }
+
                     Tab(AppTab.history.title, systemImage: AppTab.history.systemImage, value: AppTab.history) {
                         NavigationStack(path: $router.historyPath) {
                             HistoryView()
@@ -40,6 +47,13 @@ struct RootView: View {
                     Tab(AppTab.insights.title, systemImage: AppTab.insights.systemImage, value: AppTab.insights) {
                         NavigationStack(path: $router.insightsPath) {
                             InsightsView()
+                                .navigationDestination(for: AppRoute.self, destination: destination)
+                        }
+                    }
+
+                    Tab(AppTab.settings.title, systemImage: AppTab.settings.systemImage, value: AppTab.settings) {
+                        NavigationStack(path: $router.settingsPath) {
+                            SettingsView()
                                 .navigationDestination(for: AppRoute.self, destination: destination)
                         }
                     }
@@ -139,4 +153,3 @@ private struct CalnoraBannerView: View {
         .environment(NotificationStore())
         .modelContainer(container)
 }
-
