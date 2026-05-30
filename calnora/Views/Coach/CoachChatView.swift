@@ -38,13 +38,14 @@ struct CoachChatView: View {
                                     .id(message.id)
                                     .transition(messageTransition(for: message.role))
                             }
-                            if coachStore.isResponding {
+                            if coachStore.isResponding && !model.isStreamingResponse {
                                 TypingBubble()
                                     .transition(.opacity.combined(with: .scale(scale: 0.85, anchor: .bottomLeading)))
                             }
                         }
                         .animation(.smooth(duration: 0.45), value: model.localMessages.count)
                         .animation(.smooth(duration: 0.35), value: coachStore.isResponding)
+                        .animation(.smooth(duration: 0.25), value: model.isStreamingResponse)
 
                         Color.clear
                             .frame(height: 1)
@@ -60,6 +61,9 @@ struct CoachChatView: View {
                 }
                 .onChange(of: coachStore.isResponding) { _, isResponding in
                     if isResponding { scrollToBottom(proxy: proxy) }
+                }
+                .onChange(of: model.isStreamingResponse) { _, isStreaming in
+                    if isStreaming { scrollToBottom(proxy: proxy) }
                 }
                 .task {
                     try? await Task.sleep(for: .milliseconds(250))
@@ -290,7 +294,7 @@ struct CoachChatView: View {
             return
         }
         model.input = ""
-        model.localMessages.append(CoachChatBubble(role: .user, text: question))
+        model.appendUserMessage(question)
         let answer = await coachStore.answer(
             question,
             entitlements: purchaseStore.entitlements,
@@ -299,7 +303,7 @@ struct CoachChatView: View {
         if answer == QuotaError.limitReached.localizedDescription {
             notificationStore.quotaLimitReached()
         }
-        model.localMessages.append(CoachChatBubble(role: .assistant, text: answer))
+        await model.streamAssistantMessage(answer)
         await refreshQuota()
     }
 
