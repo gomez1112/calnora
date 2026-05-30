@@ -7,21 +7,21 @@ final class PaywallModel {
     let features = [
         FlexPaywallFeature(
             systemImage: "sparkles",
-            title: "Unlimited AI meal estimates",
-            subtitle: "Parse meals faster with editable nutrition estimates.",
-            tint: CalnoraColors.coach
+            title: "Unlimited AI estimates",
+            subtitle: "Parse meals from a sentence — editable totals.",
+            tint: .yellow
         ),
         FlexPaywallFeature(
             systemImage: "brain.head.profile",
             title: "Personalized coaching",
-            subtitle: "Get daily guidance based on your meals and goals.",
-            tint: CalnoraColors.success
+            subtitle: "Daily guidance from your local meals and goals.",
+            tint: .mint
         ),
         FlexPaywallFeature(
             systemImage: "chart.xyaxis.line",
             title: "Premium trends",
-            subtitle: "Follow calorie, macro, water, and habit patterns.",
-            tint: CalnoraColors.warning
+            subtitle: "Macros, water, weight and habits over time.",
+            tint: .cyan
         )
     ]
 }

@@ -1,3 +1,4 @@
+import SwiftData
 import SwiftUI
 
 struct RootView: View {
@@ -29,13 +30,6 @@ struct RootView: View {
                         }
                     }
 
-                    Tab(AppTab.coach.title, systemImage: AppTab.coach.systemImage, value: AppTab.coach) {
-                        NavigationStack(path: $router.coachPath) {
-                            CoachChatView(quotaManager: quotaManager)
-                                .navigationDestination(for: AppRoute.self, destination: destination)
-                        }
-                    }
-
                     Tab(AppTab.history.title, systemImage: AppTab.history.systemImage, value: AppTab.history) {
                         NavigationStack(path: $router.historyPath) {
                             HistoryView()
@@ -46,13 +40,6 @@ struct RootView: View {
                     Tab(AppTab.insights.title, systemImage: AppTab.insights.systemImage, value: AppTab.insights) {
                         NavigationStack(path: $router.insightsPath) {
                             InsightsView()
-                                .navigationDestination(for: AppRoute.self, destination: destination)
-                        }
-                    }
-
-                    Tab(AppTab.settings.title, systemImage: AppTab.settings.systemImage, value: AppTab.settings) {
-                        NavigationStack(path: $router.settingsPath) {
-                            SettingsView()
                                 .navigationDestination(for: AppRoute.self, destination: destination)
                         }
                     }
@@ -102,6 +89,10 @@ struct RootView: View {
             PrivacyView()
         case .premiumPack:
             PremiumPackView()
+        case .coach:
+            CoachChatView(quotaManager: quotaManager)
+        case .settings:
+            SettingsView()
         }
     }
 
@@ -132,3 +123,20 @@ private struct CalnoraBannerView: View {
         .accessibilityElement(children: .combine)
     }
 }
+#Preview {
+    let container = PersistenceController.makeModelContainer(inMemory: true)
+    let mealStore = MealStore(context: container.mainContext)
+    let nutritionGoalStore = NutritionGoalStore(context: container.mainContext)
+
+    RootView()
+        .environment(AppState())
+        .environment(AppRouter())
+        .environment(UserProfileStore(context: container.mainContext))
+        .environment(nutritionGoalStore)
+        .environment(mealStore)
+        .environment(CoachStore(engine: MockCoachEngine(), mealStore: mealStore, nutritionGoalStore: nutritionGoalStore))
+        .environment(PurchaseStore(context: container.mainContext))
+        .environment(NotificationStore())
+        .modelContainer(container)
+}
+

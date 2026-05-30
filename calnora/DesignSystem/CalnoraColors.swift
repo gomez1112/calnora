@@ -41,4 +41,31 @@ enum CalnoraColors {
             endPoint: .bottomTrailing
         )
     }
+
+    /// Warm pink → peach → mint backdrop used on every primary screen.
+    static var ambientGradient: LinearGradient {
+        LinearGradient(
+            colors: [
+                Color.pink.opacity(0.10),
+                Color.orange.opacity(0.06),
+                Color.clear,
+                Color.mint.opacity(0.08)
+            ],
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing
+        )
+    }
+}
+
+extension View {
+    /// Shared warm ambient backdrop. Use as the screen background.
+    func calnoraAmbientBackground() -> some View {
+        background {
+            ZStack {
+                CalnoraColors.groupedBackground
+                CalnoraColors.ambientGradient
+            }
+            .ignoresSafeArea()
+        }
+    }
 }

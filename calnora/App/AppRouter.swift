@@ -35,4 +35,6 @@ enum AppRoute: Hashable {
     case profile
     case privacy
     case premiumPack
+    case coach
+    case settings
 }
